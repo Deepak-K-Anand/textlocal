@@ -86,7 +86,7 @@ Send SMS from Salesforce using **Textlocal API** and **External Services** with 
 }
 ```
 
-> Note: To validate a Swagger Schema (written by yourself), visit - http://editor.swagger.io/
+> Note: To **validate** a Swagger Schema (_written by yourself_), visit - http://editor.swagger.io/
 
 4.  Create a **Flow** to consume the External Service as an _Apex Action_: 
     ![image](https://user-images.githubusercontent.com/3683725/67922885-0fe6d200-fbd2-11e9-878f-888a81d11053.png)
