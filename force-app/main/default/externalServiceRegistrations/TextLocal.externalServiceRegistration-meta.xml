@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalServiceRegistration xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>TextLocal</label>
+    <namedCredential>TextLocal</namedCredential>
+    <schema>{
+  &quot;swagger&quot;: &quot;2.0&quot;,
+  &quot;info&quot;: {
+    &quot;title&quot;: &quot;TextLocal Send SMS API&quot;,
+    &quot;description&quot;: &quot;Send SMS from Salesforce using TextLocal&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;
+  },
+  &quot;host&quot;: &quot;api.textlocal.in&quot;,
+  &quot;schemes&quot;: [ &quot;https&quot; ],
+  &quot;paths&quot;: {
+    &quot;/send&quot;: {
+      &quot;get&quot;: {
+        &quot;produces&quot;: [ &quot;application/json&quot; ],
+        &quot;parameters&quot;: [
+          {
+            &quot;in&quot;: &quot;query&quot;,
+            &quot;name&quot;: &quot;apikey&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;required&quot;: true
+          },
+          {
+            &quot;in&quot;: &quot;query&quot;,
+            &quot;name&quot;: &quot;numbers&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;required&quot;: true
+          },
+          {
+            &quot;in&quot;: &quot;query&quot;,
+            &quot;name&quot;: &quot;message&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;required&quot;: true
+          },
+          {
+            &quot;in&quot;: &quot;query&quot;,
+            &quot;name&quot;: &quot;sender&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;required&quot;: true
+          }
+        ],
+        &quot;responses&quot;: {
+          &quot;200&quot;: {
+            &quot;description&quot;: &quot;Successful Operation&quot;,
+            &quot;schema&quot;: {
+              &quot;$ref&quot;: &quot;#/definitions/Response&quot;
+            }
+          }
+        }
+      }
+    }
+  },
+  &quot;definitions&quot;: {
+    &quot;Response&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;properties&quot;: {
+        &quot;balance&quot;: {
+          &quot;type&quot;: &quot;integer&quot;,
+          &quot;format&quot;: &quot;int64&quot;
+        },
+        &quot;status&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        }
+      }
+    }
+  }
+}</schema>
+    <schemaType>OpenApi</schemaType>
+    <status>Complete</status>
+</ExternalServiceRegistration>

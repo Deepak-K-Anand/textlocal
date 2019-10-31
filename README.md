@@ -1,89 +1,58 @@
-# 📱 Textlocal API and External Services
-Send SMS from Salesforce using **Textlocal API** and **External Services** with absolutely zero Apex!
+# Salesforce App
 
-![Recording-_303](https://user-images.githubusercontent.com/3683725/67923343-951eb680-fbd3-11e9-86dc-382ae4dde69e.gif)
+This guide helps Salesforce developers who are new to Visual Studio Code go from zero to a deployed app using Salesforce Extensions for VS Code and Salesforce CLI.
 
-# 📝 Tasks: Textlocal
-1.  Sign-up for a free Textlocal account. Visit - https://www.textlocal.in
-2.  Generate an **API Key**.
-3.  Visit the Developer Docs - https://api.textlocal.in/docs/sendsms to learn how you can send an SMS using a simple _GET_ verb.
+## Part 1: Choosing a Development Model
 
-# 📝 Tasks: Salesforce
-1.  Create a **Named Credential** with URL - `api.textlocal.in`
-2.  Create a **Custom Setting (Hierarchy)** to store the _API Key_ and the name of the Sender: `TXTLCL` (_This is a constant_)
+There are two types of developer processes or models supported in Salesforce Extensions for VS Code and Salesforce CLI. These models are explained below. Each model offers pros and cons and is fully supported.
 
-    ![image](https://user-images.githubusercontent.com/3683725/67922819-e8900500-fbd1-11e9-9253-abac9b5e7856.png)
-    
-3.  Register an **External Service** with below Swagger schema - 
+### Package Development Model
+
+The package development model allows you to create self-contained applications or libraries that are deployed to your org as a single package. These packages are typically developed against source-tracked orgs called scratch orgs. This development model is geared toward a more modern type of software development process that uses org source tracking, source control, and continuous integration and deployment.
+
+If you are starting a new project, we recommend that you consider the package development model. To start developing with this model in Visual Studio Code, see [Package Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/package-development-model). For details about the model, see the [Package Development Model](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_dev_model) Trailhead module.
+
+If you are developing against scratch orgs, use the command `SFDX: Create Project` (VS Code) or `sfdx force:project:create` (Salesforce CLI)  to create your project. If you used another command, you might want to start over with that command.
+
+When working with source-tracked orgs, use the commands `SFDX: Push Source to Org` (VS Code) or `sfdx force:source:push` (Salesforce CLI) and `SFDX: Pull Source from Org` (VS Code) or `sfdx force:source:pull` (Salesforce CLI). Do not use the `Retrieve` and `Deploy` commands with scratch orgs.
+
+### Org Development Model
+
+The org development model allows you to connect directly to a non-source-tracked org (sandbox, Developer Edition (DE) org, Trailhead Playground, or even a production org) to retrieve and deploy code directly. This model is similar to the type of development you have done in the past using tools such as Force.com IDE or MavensMate.
+
+To start developing with this model in Visual Studio Code, see [Org Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/org-development-model). For details about the model, see the [Org Development Model](https://trailhead.salesforce.com/content/learn/modules/org-development-model) Trailhead module.
+
+If you are developing against non-source-tracked orgs, use the command `SFDX: Create Project with Manifest` (VS Code) or `sfdx force:project:create --manifest` (Salesforce CLI) to create your project. If you used another command, you might want to start over with this command to create a Salesforce DX project.
+
+When working with non-source-tracked orgs, use the commands `SFDX: Deploy Source to Org` (VS Code) or `sfdx force:source:deploy` (Salesforce CLI) and `SFDX: Retrieve Source from Org` (VS Code) or `sfdx force:source:retrieve` (Salesforce CLI). The `Push` and `Pull` commands work only on orgs with source tracking (scratch orgs).
+
+## The `sfdx-project.json` File
+
+The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+
+The most important parts of this file for getting started are the `sfdcLoginUrl` and `packageDirectories` properties.
+
+The `sfdcLoginUrl` specifies the default login URL to use when authorizing an org.
+
+The `packageDirectories` filepath tells VS Code and Salesforce CLI where the metadata files for your project are stored. You need at least one package directory set in your file. The default setting is shown below. If you set the value of the `packageDirectories` property called `path` to `force-app`, by default your metadata goes in the `force-app` directory. If you want to change that directory to something like `src`, simply change the `path` value and make sure the directory you’re pointing to exists.
+
 ```json
-{
-  "swagger": "2.0",
-  "info": {
-    "title": "TextLocal Send SMS API",
-    "description": "Send SMS from Salesforce using TextLocal",
-    "version": "1.0.0"
-  },
-  "host": "api.textlocal.in",
-  "schemes": [ "https" ],
-  "paths": {
-    "/send": {
-      "get": {
-        "produces": [ "application/json" ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "apikey",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "numbers",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "message",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "sender",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Operation",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          }
-        }
-      }
+"packageDirectories" : [
+    {
+      "path": "force-app",
+      "default": true
     }
-  },
-  "definitions": {
-    "Response": {
-      "type": "object",
-      "properties": {
-        "balance": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "status": {
-          "type": "string"
-        }
-      }
-    }
-  }
-}
+]
 ```
-4.  Create a **Flow** to consume the External Service as an **Apex Action**:
-    ![image](https://user-images.githubusercontent.com/3683725/67922885-0fe6d200-fbd2-11e9-878f-888a81d11053.png)
-    ![image](https://user-images.githubusercontent.com/3683725/67922913-2725bf80-fbd2-11e9-8f74-44f5dddef8d0.png)
-    ![image](https://user-images.githubusercontent.com/3683725/67922934-373d9f00-fbd2-11e9-993a-ee88ceccc967.png)
-5.  **Activate** the Flow.
+
+## Part 2: Working with Source
+
+For details about developing against scratch orgs, see the [Package Development Model](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_dev_model) module on Trailhead or [Package Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/package-development-model).
+
+For details about developing against orgs that don’t have source tracking, see the [Org Development Model](https://trailhead.salesforce.com/content/learn/modules/org-development-model) module on Trailhead or [Org Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/org-development-model).
+
+## Part 3: Deploying to Production
+
+Don’t deploy your code to production directly from Visual Studio Code. The deploy and retrieve commands do not support transactional operations, which means that a deployment can fail in a partial state. Also, the deploy and retrieve commands don’t run the tests needed for production deployments. The push and pull commands are disabled for orgs that don’t have source tracking, including production orgs.
+
+Deploy your changes to production using [packaging](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_dev2gp.htm) or by [converting your source](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_source.htm#cli_reference_convert) into metadata format and using the [metadata deploy command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_mdapi.htm#cli_reference_deploy).
