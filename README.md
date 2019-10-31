@@ -11,7 +11,7 @@ Send SMS from Salesforce using **Textlocal API** and **External Services** with 
 3.  Visit the Developer Docs - https://api.textlocal.in/docs/sendsms to learn how you can send an SMS using a simple GET verb.
 
 ## 📝 Tasks: Salesforce
-1.  Create a **Named Credential** with URL - `api.textlocal.in`
+1.  Create a **Named Credential** with URL - `https://api.textlocal.in`
 
 2.  Create a **Custom Setting** (_Hierarchy_) to store the _API Key_ and the name of the _Sender_: `TXTLCL` (_This is a constant_)
 
