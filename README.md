@@ -13,7 +13,7 @@ Send SMS from Salesforce using **Textlocal API** and **External Services** with 
 ## 📝 Tasks: Salesforce
 1.  Create a **Named Credential** with URL - `api.textlocal.in`
 
-2.  Create a **Custom Setting** (_Hierarchy_) to store the API Key and the name of the Sender: `TXTLCL` (_This is a constant_)
+2.  Create a **Custom Setting** (_Hierarchy_) to store the _API Key_ and the name of the _Sender_: `TXTLCL` (_This is a constant_)
 
 ![image](https://user-images.githubusercontent.com/3683725/67922819-e8900500-fbd1-11e9-9253-abac9b5e7856.png)
 
@@ -92,3 +92,6 @@ Send SMS from Salesforce using **Textlocal API** and **External Services** with 
     ![image](https://user-images.githubusercontent.com/3683725/67922934-373d9f00-fbd2-11e9-993a-ee88ceccc967.png)
 
 5.  **Activate** the Flow.
+
+## 📚 Resources
+What if I want to learn more about **External Services**. Visit - https://trailhead.salesforce.com/en/content/learn/modules/external-services
